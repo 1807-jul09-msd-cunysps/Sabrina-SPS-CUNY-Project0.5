@@ -96,49 +96,6 @@ namespace ContactLibrary
         public string ext { get; set; }
     }
 
-    public class Palindrome
-    {
-        
-        public bool palindromeCheckStr(string var)
-        {
-            var = var.Replace(" ", "");
-            var = var.ToLower();
-            string reverse = "";
-            for(int x = var.Length-1; x > -1; x--)
-            {
-                reverse += var[x];
-            }
-            Console.WriteLine(reverse);
-            if(var == reverse)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-
-        public bool palindromCheckNum(int var)
-        {
-            string varStr = var.ToString();
-            string testStr = var.ToString();
-            testStr.Replace(" ", "");
-            testStr.ToLower();
-            varStr.Replace(" ", "");
-            varStr.ToLower();
-
-            if (testStr == varStr)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
 }
 
 

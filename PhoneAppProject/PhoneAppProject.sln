@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactLibrary", "PhoneAppP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Palindrome\Program.csproj", "{5D6DF8C9-7F74-4BFF-8669-F02ADB31040A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{095FA99D-57F4-45DA-9910-F900EDF32638}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{5D6DF8C9-7F74-4BFF-8669-F02ADB31040A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D6DF8C9-7F74-4BFF-8669-F02ADB31040A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D6DF8C9-7F74-4BFF-8669-F02ADB31040A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{095FA99D-57F4-45DA-9910-F900EDF32638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{095FA99D-57F4-45DA-9910-F900EDF32638}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{095FA99D-57F4-45DA-9910-F900EDF32638}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{095FA99D-57F4-45DA-9910-F900EDF32638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
