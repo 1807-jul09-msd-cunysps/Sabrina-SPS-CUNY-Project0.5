@@ -14,37 +14,36 @@ namespace PhoneAppProject
     public enum Country
     {
 
-        AntiguaBarbuda = 1268,
-        Argentina = 54,
-        Aruba = 297,
-        Australia = 61,
-        Bahamas = 1242,
-        Barbados = 1246,
-        Belize = 501,
-        Bermuda = 1441,
-        BritishVirginIslands = 1284,
-        Canada = 1,
-        Cuba = 53,
-        Curacao = 599,
-        Haiti = 509,
-        India = 91,
-        Jamaica = 1876,
+        AG = 1268,
+        AR = 54,
+        AW = 297,
+        AU = 61,
+        BS = 1242,
+        BB = 1246,
+        BZ = 501,
+        BM = 1441,
+        VG = 1284,
+        CA = 1,
+        CU = 53,
+        HT = 509,
+        IN = 91,
+        JM = 1876,
         US = 1,
         UK = 44,
-        Pakistan = 92,
+        PK = 92,
     }
 
 
     public class Person
     {
-        public Person(string fn, string ln, string houseNo, string str, string cy, Country ctry, string zip, string number, string st = "", string areaCode = "")
+        public Person(string fn, string ln, string houseNo, string str, string cy, Country ctry,string zip, string number, string st = "", string areaCode = "")
         {
             /// Initialise the dependant objects
             Pid = DateTime.Now.Ticks;
             firstName = fn;
             lastName = ln;
             address = new Address(Pid, houseNo, str, cy, ctry, st, zip);
-            phone = new Phone(Pid, ctry, areaCode, number);
+            phone = new Phone(Pid, ctry, number, areaCode);
         }
 
         public long Pid { get; set; }
@@ -53,6 +52,15 @@ namespace PhoneAppProject
         public Address address { get; set; }
         public Phone phone { get; set; }
 
+
+
+        public void displayPerson()
+        {
+            Console.WriteLine($"First Name: {firstName}");
+            Console.WriteLine($"Last Name: {lastName}");
+            address.displayAddress();
+            phone.displayPhone();
+        }
 
     }
 }

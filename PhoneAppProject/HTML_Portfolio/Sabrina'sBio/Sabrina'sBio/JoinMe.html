@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="stylesheet.css" />
     <link rel="stylesheet" href="Content/bootstrap.min.css" />
     <link rel="stylesheet" href="BootstrapFormHelpers/dist/css/bootstrap-formhelpers.min.css" />
-    <link rel="stylesheet" href="intl-tel-input-master/build/css/intlTelInput.css">
 
 
 
@@ -15,7 +14,6 @@
     <script src="BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-countries.en_US.js"></script>
     <script src="BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
     <script src="intl-tel-input-master/build/js/intlTelInput.js"></script>
-    <script>$("#demo").intlTelInput();</script>
 
     <title>Join Me</title>
 </head>
@@ -108,7 +106,29 @@
                     <h3>Contact Details</h3>
                     <div class="form-group col-md-3">
                         <label for="Country Code">Country Code</label>
-                        <input type="tel" id="demo" placeholder="">
+                        <select class="custom-select my-1 mr-sm-2" id="inlineCountryCode" required>
+                            <option selected>Select Country Code...</option>
+                            <option value="1">1</option>
+                            <option value="2">93</option>
+                            <option value="3">355</option>
+                            <option value="4">1-684</option>
+                            <option value="5">880</option>
+                            <option value="6">1-246</option>
+                            <option value="7">355</option>
+                            <option value="8">53</option>
+                            <option value="9">33</option>
+                            <option value="10">1-876</option>
+                            <option value="11">509</option>
+                            <option value="12">44</option>
+                            <option value="13">41</option>
+                            <option value="14">1-787</option>
+                            <option value="15">52</option>
+                            <option value="16">86</option>
+                            <option value="17">1-809</option>
+                            <option value="18">91</option>
+                            <option value="19">39</option>
+                            <option value="20">212</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="areaCode">Area Code</label>

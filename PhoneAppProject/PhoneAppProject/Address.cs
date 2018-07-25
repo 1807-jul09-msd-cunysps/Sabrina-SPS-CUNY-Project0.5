@@ -14,16 +14,29 @@ namespace PhoneAppProject
             houseNum = houseAddr;
             street = str;
             city = cty;
-            State = st;
-            Country = ctry;
+            state = st;
+            country = ctry;
             zipcode = zip;
         }
         public long Pid { get; set; }
         public string houseNum { get; set; }
         public string street { get; set; }
         public string city { get; set; }
-        public string State { get; set; }
-        public Country Country { get; set; }
+        public string state { get; set; }
+        public Country country { get; set; }
         public string zipcode { get; set; }
+
+        public void displayAddress()
+        {
+            if(state != "")
+            {
+                Console.WriteLine($"{houseNum} {street} {city}, {state} {country} {zipcode}");
+            }
+            else
+            {
+                Console.WriteLine($"{houseNum} {street} {city}, {country} {zipcode}");
+            }
+            
+        }
     }
 }
