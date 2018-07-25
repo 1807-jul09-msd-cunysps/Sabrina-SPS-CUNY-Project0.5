@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="stylesheet.css" />
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="BootstrapFormHelpers/dist/css/bootstrap-formhelpers.min.css" />
+
+    <script src="Scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/umd/popper.min.js"></script>
+    <script src="BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
+
+    <title>Join Me</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="mybio.html">
+                            Home <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            About Me
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Contact Form
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="JoinMe.html">
+                            Join Me
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <h1>Join Me Page</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Personnel Details</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form>
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="exampleFirstName" placeholder="Enter your first name" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="lastName">LastName</label>
+                        <input type="text" class="form-control" id="exampleLastName" placeholder="Enter your last name" required />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="Age">Age</label>
+                        <input type="number" class="form-control" id="exampleAge" placeholder="Enter your age" required />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="my-1 mra-2">Gender</label>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineGenderSelectPref" required>
+                            <option selected>Select Gender...</option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                            <option value="3">Do Not Say</option>
+                        </select>
+                    </div>
+                    <h3>Address</h3>
+                    <div class="form-group">
+                        <label for="AddressLine1">Address Line 1</label>
+                        <input type="text" class="form-control" id="Address1" placeholder="Enter your Address" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="AddressLine2">Address Line 2</label>
+                        <input type="text" class="form-control" id="Address2" placeholder="Optional" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="State">State</label>
+                            <input type="text" class="form-control" id="State" placeholder="Enter your State" required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="City">City</label>
+                            <input type="text" class="form-control" id="City" placeholder="Enter your City" required />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="Country">Country</label>
+                        <select class="bfh-countries" data-country="US" required></select>
+                    </div>
+                    <h3>Contact Details</h3>
+                    <div class="form-group col-md-3">
+                        <label for="Country Code">Country Code</label>
+                        <select class="bfh-countries" data-country="US" required></select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="areaCode">Area Code</label>
+                        <input type="number" class="form-control" id="areaCode" placeholder="Enter area code" />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="phone">Phone</label>
+                        <input type="tel" class="form-control" id="phone"  placeholder="Enter phone number" required/>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="ext">Extension</label>
+                        <input type="number" class="form-control" id="ext" placeholder="Enter extension" />
+                    </div>
+                    <button type="submit" class="btn btn-primary my-1">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

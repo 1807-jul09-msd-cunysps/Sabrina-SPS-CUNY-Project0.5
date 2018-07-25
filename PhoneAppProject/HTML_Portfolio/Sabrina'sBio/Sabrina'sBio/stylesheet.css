@@ -20,14 +20,6 @@ li a {
     padding-right: 10px;
 }
 
-li a:hover {
-    background-color: whitesmoke;
-    color: darkblue;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-decoration: none;
-}
-
 
 li {
     list-style-type: none;
@@ -60,5 +52,6 @@ nav {
 }
 
 h1 {
-    color: whitesmoke
+    color: whitesmoke;
+    text-align: center;
 }
