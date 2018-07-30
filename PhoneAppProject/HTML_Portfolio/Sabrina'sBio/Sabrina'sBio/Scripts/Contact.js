@@ -137,7 +137,7 @@ window.onload = function () {
 
     if (this.addEventListener) {
         var firstName = document.getElementById("exampleFirstName");
-        firstName.addEventListener("blur", welcome);
+        firstName.addEventListener("blur", Welcome);
     }
 
     function Welcome() {
@@ -182,7 +182,7 @@ window.onload = function () {
     function checkZipcode() {
         debugger;
         var zipcode = document.getElementById("zipcode").value;
-        var clientKey = 'js - N3eVYSIYZeKEsfoOl7Ef6TzSwzzHBvYN8JWv2OAWt2lrjwMN51eOqTasD8vwZG75';
+        var clientKey = 'DkiQuMCzvh9UPEhcH7LPViNGeQDI3NpGLsc1uBsvtCj5Hv0ddbiuTUHk0WpkhRCm';
         var url = "https://www.zipcodeapi.com/rest/" + clientKey + "/info.json/" + zipcode + "/radians";
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url);
