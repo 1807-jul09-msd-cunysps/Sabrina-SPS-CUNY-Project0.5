@@ -49,6 +49,7 @@ function showHeroes(obj) {
         heroPowers.textContent = 'Superpowers: ';
         var powers = heroMembers[i]['powers'];
         for (var j = 0; j < powers.length; j++) {
+            //loops through the powers for each member
             var powerItem = document.createElement('li');
             powerItem.textContent = powers[j];
             powerList.appendChild(powerItem);

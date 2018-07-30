@@ -14,7 +14,7 @@ namespace PhoneAppProject
             Pid = personID;
             countryCode = (int)ctCode;
             areaCode = area;
-            number = countryCode + area + num;
+            number = num;
         }
 
         public long Pid { get; set; }

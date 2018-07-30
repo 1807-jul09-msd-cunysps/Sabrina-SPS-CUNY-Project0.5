@@ -14,25 +14,26 @@ namespace PhoneAppProject
         public ContactDirectory() { }
         public void MainMenu()
         {
-            Console.WriteLine("Welcome to the Your Phone Directory");
-            Console.WriteLine("Choose your command from the menu below:");
-            Console.WriteLine("1. Read");
-            Console.WriteLine("2. Read By Name");
-            Console.WriteLine("3. Search by Name");
-            Console.WriteLine("4. Add Contact");
-            Console.WriteLine("5. Update Existing Contact");
-            Console.WriteLine("6. Delete Existing Contact");
-            Console.WriteLine("7. Exit Main Menu");
-            Console.WriteLine("Enter the number of the command you wish to execute:");
-            string command = Console.ReadLine();
-
+            string command = "";
             while (command != "7")
             {
+                Console.WriteLine("Welcome to the Your Phone Directory");
+                Console.WriteLine("Choose your command from the menu below:");
+                Console.WriteLine("1. Read");
+                Console.WriteLine("2. Read By Name");
+                Console.WriteLine("3. Search by Name");
+                Console.WriteLine("4. Add Contact");
+                Console.WriteLine("5. Update Existing Contact");
+                Console.WriteLine("6. Delete Existing Contact");
+                Console.WriteLine("7. Exit Main Menu");
+                Console.WriteLine("Enter the number of the command you wish to execute:");
+                command = Console.ReadLine();
+
                 switch (command)
                 {
                     case "1":
                         Read();
-                        break;
+                        continue;
 
                     case "2":
                         Console.WriteLine("Enter the first name of the person you wish to read: ");
@@ -40,7 +41,7 @@ namespace PhoneAppProject
                         Console.WriteLine("Enter the last name of the person you wish to read: ");
                         string ln = Console.ReadLine();
                         ReadByName(fn, ln);
-                        break;
+                        continue;
 
                     case "3":
                         Console.WriteLine("Enter the first name of the person you want to search for:");
@@ -48,23 +49,27 @@ namespace PhoneAppProject
                         Console.WriteLine("Enter the last name of the person you want to search for:");
                         string lastName = Console.ReadLine();
                         SearchByName(firstName, lastName);
-                        break;
+                        continue;
 
                     case "4":
                         addContact();
-                        break;
+                        continue;
 
                     case "5":
-
-                        break;
+                        Console.WriteLine("Enter the first name of the person you want to update:");
+                        string firName = Console.ReadLine();
+                        Console.WriteLine("Enter the last name of the person you want to update:");
+                        string lasName = Console.ReadLine();
+                        update(firName, lasName);
+                        continue;
 
                     case "6":
-                        Console.WriteLine("Enter the first name of the person you want to search for:");
+                        Console.WriteLine("Enter the first name of the person you want to delete:");
                         string fName = Console.ReadLine();
-                        Console.WriteLine("Enter the last name of the person you want to search for:");
+                        Console.WriteLine("Enter the last name of the person you want to delete:");
                         string lName = Console.ReadLine();
                         deleteContact(fName, lName);
-                        break;
+                        continue;
                     default:
                         break;
 
@@ -117,7 +122,7 @@ namespace PhoneAppProject
         void serializeObjectList()
         {
             string json = JsonConvert.SerializeObject(directory, Formatting.Indented);
-            string path = @"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject";
+            string path = @"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject\Directory.txt";
             if (!File.Exists(path))
             {
                 using (StreamWriter sw = File.CreateText(path))
@@ -127,15 +132,9 @@ namespace PhoneAppProject
             }
             else
             {
-                using (StreamWriter sw = new StreamWriter(@"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject"))
+                using (StreamWriter sw = File.AppendText(@"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject\Directory.txt"))
                 {
-                    foreach (char line in json)
-                    {
-                        sw.WriteLine(line);
-                        Console.WriteLine(line);
-                        Console.ReadKey();
-                    }
-
+                    sw.WriteLine(json);
                 }
             }
 
@@ -188,6 +187,75 @@ namespace PhoneAppProject
 
         public void update(string firstName, string lastName)
         {
+            Person contact = SearchByName(firstName, lastName);
+            contact.displayPerson();
+            Console.WriteLine("What would you like to update?");
+            Console.WriteLine("1.The Contact Information(First Name, Last Name, etc)?");
+            Console.WriteLine("2.The Address Information?");
+            Console.WriteLine("3.The Phone Number?");
+            Console.WriteLine("4.Nothing");
+            Console.WriteLine("Enter the number for the option you want to update:");
+            var option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    Console.WriteLine("Enter the new first name of the person you want to update:");
+                    string fName = Console.ReadLine();
+                    Console.WriteLine("Enter the new last name of the person you want to update:");
+                    string lName = Console.ReadLine();
+                    contact.firstName = fName;
+                    contact.lastName = lName;
+                    break;
+
+                case "2":
+                    Console.Write("Enter the new House number:");
+                    string hNo = Console.ReadLine();
+                    Console.Write("Enter the new Street name:");
+                    string streetName = Console.ReadLine();
+                    Console.Write("Enter the new city:");
+                    string city = Console.ReadLine();
+                    Console.Write("Enter the new state(initials only):");
+                    string state = Console.ReadLine();
+                    Console.Write("Enter the new Country(initials only):");
+                    string ctry = Console.ReadLine();
+                    Console.Write("Enter the new zip code:");
+                    string zip = Console.ReadLine();
+
+                    Country code = Country.US;
+                    foreach (Country var in Enum.GetValues(typeof(Country)))
+                    {
+                        if (var.ToString() == ctry)
+                        {
+                            code = var;
+                        }
+                    }
+                
+                    contact.address.houseNum = hNo;
+                    contact.address.street = streetName;
+                    contact.address.city = city;
+                    contact.address.state = state;
+                    contact.address.country = code;
+                    contact.address.zipcode = zip;
+
+                    break;
+
+                case "3":
+                    Console.Write("Enter the area code, if you have one:");
+                    string area = Console.ReadLine();
+                    Console.Write("Enter the number:");
+                    string number = Console.ReadLine();
+
+                    contact.phone.countryCode = (int)contact.address.country;
+                    contact.phone.areaCode = area;
+                    contact.phone.number = number;
+                    break;
+
+                default:
+                    break;
+
+                
+            }
 
         }
 
