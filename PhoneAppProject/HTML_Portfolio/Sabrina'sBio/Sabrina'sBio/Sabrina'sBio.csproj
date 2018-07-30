@@ -91,6 +91,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Scripts\Contact.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -101,6 +102,7 @@
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="xslt_plugins\bootstrap3.form.elements.txt" />
     <Content Include="xslt_plugins\bootstrap3.form.elements.xslt" />
+    <None Include="Properties\PublishProfiles\SabrinasBio - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

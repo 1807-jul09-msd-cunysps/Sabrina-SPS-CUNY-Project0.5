@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using System.IO;
+
 
 namespace PhoneAppProject
 {
+    
     public class ContactDirectory
     {
         public ContactDirectory() { }
@@ -23,46 +26,49 @@ namespace PhoneAppProject
             Console.WriteLine("Enter the number of the command you wish to execute:");
             string command = Console.ReadLine();
 
-            switch (command)
+            while (command != "7")
             {
-                case "1":
-                    Read();
-                    break;
+                switch (command)
+                {
+                    case "1":
+                        Read();
+                        break;
 
-                case "2":
-                    Console.WriteLine("Enter the first name of the person you wish to read: ");
-                    string fn = Console.ReadLine();
-                    Console.WriteLine("Enter the last name of the person you wish to read: ");
-                    string ln = Console.ReadLine();
-                    ReadByName(fn, ln);
-                    break;
+                    case "2":
+                        Console.WriteLine("Enter the first name of the person you wish to read: ");
+                        string fn = Console.ReadLine();
+                        Console.WriteLine("Enter the last name of the person you wish to read: ");
+                        string ln = Console.ReadLine();
+                        ReadByName(fn, ln);
+                        break;
 
-                case "3":
-                    Console.WriteLine("Enter the first name of the person you want to search for:");
-                    string firstName = Console.ReadLine();
-                    Console.WriteLine("Enter the last name of the person you want to search for:");
-                    string lastName = Console.ReadLine();
-                    break;
+                    case "3":
+                        Console.WriteLine("Enter the first name of the person you want to search for:");
+                        string firstName = Console.ReadLine();
+                        Console.WriteLine("Enter the last name of the person you want to search for:");
+                        string lastName = Console.ReadLine();
+                        SearchByName(firstName, lastName);
+                        break;
 
-                case "4":
+                    case "4":
+                        addContact();
+                        break;
 
-                    break;
+                    case "5":
 
-                case "5":
+                        break;
 
-                    break;
+                    case "6":
+                        Console.WriteLine("Enter the first name of the person you want to search for:");
+                        string fName = Console.ReadLine();
+                        Console.WriteLine("Enter the last name of the person you want to search for:");
+                        string lName = Console.ReadLine();
+                        deleteContact(fName, lName);
+                        break;
+                    default:
+                        break;
 
-                case "6":
-
-                    break;
-
-                case "7":
-
-                    break;
-                default:
-
-                    break;
-
+                }
             }
         }
 
@@ -104,7 +110,35 @@ namespace PhoneAppProject
             int ctryCode = (int)code;
             Person add = new Person(fn, ln, hNo, streetName, city, code, zip, number, state, area);
             directory.Add(add);
+            serializeObjectList();
             Console.WriteLine("Contact Added");
+        }
+
+        void serializeObjectList()
+        {
+            string json = JsonConvert.SerializeObject(directory, Formatting.Indented);
+            string path = @"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject";
+            if (!File.Exists(path))
+            {
+                using (StreamWriter sw = File.CreateText(path))
+                {
+                    sw.WriteLine(json);
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter(@"C:\Users\sflet\Documents\Revature\PhoneAppProject\Sabrina-SPS-CUNY-Project0.5\PhoneAppProject\PhoneAppProject"))
+                {
+                    foreach (char line in json)
+                    {
+                        sw.WriteLine(line);
+                        Console.WriteLine(line);
+                        Console.ReadKey();
+                    }
+
+                }
+            }
+
         }
 
         public void Read()
@@ -150,6 +184,11 @@ namespace PhoneAppProject
                 }
             }
             return null;
+        }
+
+        public void update(string firstName, string lastName)
+        {
+
         }
 
         public List<Person> directory = new List<Person>();

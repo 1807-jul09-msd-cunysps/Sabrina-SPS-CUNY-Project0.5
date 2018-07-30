@@ -14,9 +14,8 @@ namespace Program
         {
 
             ContactDirectory myphone = new ContactDirectory();
-            myphone.addContact();
-            myphone.addContact();
-            myphone.Read();
+            myphone.MainMenu();
+
 
             Console.Read();
         }
