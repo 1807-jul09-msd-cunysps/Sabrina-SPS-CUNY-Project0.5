@@ -36,17 +36,35 @@ namespace PhoneAppProject
 
     public class Person
     {
-        public Person(string fn, string ln, string houseNo, string str, string cy, Country ctry,string zip, string number, string st = "", string areaCode = "")
+        public Person() { }
+        public Person(string fn, string ln, string houseNo, string str, string cy, string ctry,string zip, string number,  string st = "", string areaCode = "", Int64 pid = 0)
         {
             /// Initialise the dependant objects
-            Pid = DateTime.Now.Ticks;
+            /// 
+            if(pid == 0)
+            {
+                Pid = DateTime.Now.Ticks;
+            }
+            else
+            {
+                Pid = pid;
+            }
+            Country code = Country.US;
+            foreach (Country var in Enum.GetValues(typeof(Country)))
+            {
+                if (var.ToString() == ctry)
+                {
+                    code = var;
+                }
+            }
+
             firstName = fn;
             lastName = ln;
-            address = new Address(Pid, houseNo, str, cy, ctry, st, zip);
-            phone = new Phone(Pid, ctry, number, areaCode);
+            address = new Address(Pid, houseNo, str, cy, ctry, zip, st);
+            phone = new Phone(Pid, (int)code, number, areaCode);
         }
 
-        public long Pid { get; set; }
+        public Int64 Pid { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public Address address { get; set; }

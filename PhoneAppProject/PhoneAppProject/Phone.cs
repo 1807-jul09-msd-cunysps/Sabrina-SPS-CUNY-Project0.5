@@ -9,19 +9,41 @@ namespace PhoneAppProject
 
     public class Phone
     {
-        public Phone(long personID, Country ctCode, string num, string area = "")
+        public Phone() { }
+        public Phone(Int64 personID,string num)
+        { 
+
+        }
+        public Phone(Int64 personID, int ctCode, string num, string area = "")
         {
             Pid = personID;
-            countryCode = (int)ctCode;
+            countryCode = ctCode.ToString();
             areaCode = area;
             number = num;
         }
 
-        public long Pid { get; set; }
-        public int countryCode { get; set; }
+        public Int64 Pid { get; set; }
+        public string countryCode { get; set; }
         public string areaCode { get; set; }
         public string number { get; set; }
         //public string ext { get; set; }
+
+        public string getNumber()
+        {
+            if (areaCode == "")
+            {
+                string temp = $"{countryCode}-{number}";
+                return temp;
+            }
+            else
+            {
+                string temp = $"{countryCode}-{areaCode}-{number}";
+                return temp;
+
+            }
+
+        }
+        
         public void displayPhone()
         {
             if (areaCode == "")

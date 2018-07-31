@@ -4,11 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace PhoneAppProject
 {
     public class Address
     {
-        public Address(long personalID, string houseAddr, string cty, string st, Country ctry, string zip, string str = "")
+        public Address()
+        {
+        }
+
+        public Address(Int64 personalID, string houseAddr, string str, string cty, string ctry, string zip, string st)
         {
             Pid = personalID;
             houseNum = houseAddr;
@@ -18,12 +23,12 @@ namespace PhoneAppProject
             country = ctry;
             zipcode = zip;
         }
-        public long Pid { get; set; }
+        public Int64 Pid { get; set; }
         public string houseNum { get; set; }
         public string street { get; set; }
         public string city { get; set; }
         public string state { get; set; }
-        public Country country { get; set; }
+        public string country { get; set; }
         public string zipcode { get; set; }
 
         public void displayAddress()

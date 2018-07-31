@@ -10,9 +10,9 @@
     <script src="Scripts/jquery-3.3.1.slim.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="Scripts/umd/popper.min.js"></script>
-    <script src="BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-countries.en_US.js"></script>
-    <script src="BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
-    <script src="intl-tel-input-master/build/js/intlTelInput.js"></script>
+    <script src="Scripts/BootstrapFormHelpers/js/lang/en_US/bootstrap-formhelpers-countries.en_US.js"></script>
+    <script src="Scripts/BootstrapFormHelpers/js/bootstrap-formhelpers-countries.js"></script>
+    <script src="Scripts/intl-tel-input-master/build/js/intlTelInput.min.js"></script>
     <script src="../Scripts/Contact.js" type="text/javascript"></script>
 
     <title>Join Me</title>
@@ -58,22 +58,22 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <form>
+                <form name="ContactForm" onsubmit="validate()">
                     <div class="form-group col-md-6">
                         <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="exampleFirstName" placeholder="Enter your first name" onblur="Welcome()" required />
+                        <input type="text" class="form-control" id="exampleFirstName" placeholder="Enter your first name" name="firstName" onblur="validFirstName()" />
                     </div>
                     <div class="form-group col-md-6">
                         <label for="lastName">LastName</label>
-                        <input type="text" class="form-control" id="exampleLastName" placeholder="Enter your last name" required />
+                        <input type="text" class="form-control" id="exampleLastName" name="lastName" placeholder="Enter your last name" onblur="validLastName()" />
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Age">Age</label>
-                        <input type="number" class="form-control" id="exampleAge" placeholder="Enter your age" required />
+                        <input type="number" class="form-control" id="exampleAge" name="Age" placeholder="Enter your age" onblur="validAge()"/>
                     </div>
                     <div class="form-group col-md-4">
                         <label class="my-1 mra-2">Gender</label>
-                        <select class="custom-select my-1 mr-sm-2" id="inlineGenderSelectPref" required>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineGenderSelectPref" name="gender" required>
                             <option selected>Select Gender...</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
@@ -83,11 +83,11 @@
                     <h3>Address</h3>
                     <div class="form-group">
                         <label for="zipcode">Zipcode</label>
-                        <input type="text" class="form-control" id="zipcode" placeholder="Enter your Zipcode" required />
+                        <input type="text" class="form-control" id="zipcode" name="zip" placeholder="Enter your Zipcode" onblur="checkZipcode()" required />
                     </div>
                     <div class="form-group">
                         <label for="AddressLine1">Address Line 1</label>
-                        <input type="text" class="form-control" id="Address1" placeholder="Enter your Address" required />
+                        <input type="text" class="form-control" id="Address1" placeholder="Enter your Address" name="address1" required />
                     </div>
                     <div class="form-group">
                         <label for="AddressLine2">Address Line 2</label>
@@ -96,34 +96,38 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="State">State</label>
-                            <input type="text" class="form-control" id="State" placeholder="Enter your State" required />
+                            <input type="text" class="form-control" id="State" placeholder="Enter your State" name="state" />
                         </div>
                         <div class="form-group col-md-4">
                             <label for="City">City</label>
-                            <input type="text" class="form-control" id="City" placeholder="Enter your City" required />
+                            <input type="text" class="form-control" id="City" placeholder="Enter your City" name="city" required />
                         </div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="Country">Country</label>
-                        <select class="bfh-countries" data-country="US" required></select>
+                        <select class="bfh-countries" data-country="US"  name="country" required></select>
                     </div>
                     <div class="form-group">
 
                         <label for="AddressLine1">Is permanent addess the same as the </label>
-                        <select id="checkAddress" onchange="checkAdd()">
+                        <select id="checkAddress" onblur="checkAdd()" name="checkAddress">
                             <option selected>Select..</option>
                             <option>Yes</option>
                             <option>No</option>
                         </select>
                     </div>
-                    <div class="form-group" id="address2"></div>
-                    <div class="form-group" id="city2"></div>
-                    <div class="form-group" id="state2"></div>
-                    <div class="form-group" id="country2"></div>
+                    <div class="form-group" id="address2">
+                    </div>
+                    <div class="form-group" id="city2">
+                    </div>
+                    <div class="form-group" id="state2">
+                    </div>
+                    <div class="form-group" id="country2">
+                    </div>
                     <h3>Contact Details</h3>
                     <div class="form-group col-md-3">
                         <label for="Country Code">Country Code</label>
-                        <select class="custom-select my-1 mr-sm-2" id="inlineCountryCode" required>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineCountryCode" name="countryCode" required>
                             <option selected>Select Country Code...</option>
                             <option value="1">1</option>
                             <option value="2">93</option>
@@ -149,15 +153,15 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="areaCode">Area Code</label>
-                        <input type="number" class="form-control" id="areaCode" placeholder="Enter area code" />
+                        <input type="number" class="form-control" id="areaCode" name="areaCode" placeholder="Enter area code" />
                     </div>
                     <div class="form-group col-md-3">
                         <label for="phone">Phone</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" required />
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter phone number" required />
                     </div>
                     <div class="form-group col-md-3">
                         <label for="ext">Extension</label>
-                        <input type="number" class="form-control" id="ext" placeholder="Enter extension" />
+                        <input type="number" class="form-control" id="ext" name="ext" placeholder="Enter extension" />
                     </div>
                     <button type="submit" class="btn btn-primary my-1">Submit</button>
                 </form>
