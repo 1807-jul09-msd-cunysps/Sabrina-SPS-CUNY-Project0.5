@@ -87,40 +87,50 @@ namespace PhoneAppProject
             string fn = Console.ReadLine();
             Console.Write("Enter the last name:");
             string ln = Console.ReadLine();
-            Console.Write("Enter the House number:");
-            string hNo = Console.ReadLine();
-            Console.Write("Enter the Street name:");
-            string streetName = Console.ReadLine();
-            Console.Write("Enter the city:");
-            string city = Console.ReadLine();
-            Console.Write("Enter the state(initials only):");
-            string state = Console.ReadLine();
-            Console.Write("Enter the Country(initials only):");
-            string ctry = Console.ReadLine();
-            Console.Write("Enter the zip code:");
-            string zip = Console.ReadLine();
-            Console.Write("Enter the area code, if you have one:");
-            string area = Console.ReadLine();
-            Console.Write("Enter the number:");
-            string number = Console.ReadLine();
-
-            Country code = Country.US;
-            foreach (Country var in Enum.GetValues(typeof(Country)))
+            Person check = SearchByName(fn, ln);
+            if (!contactExist(check))
             {
-                if (var.ToString() == ctry)
+                Console.Write("Enter the House number:");
+                string hNo = Console.ReadLine();
+                Console.Write("Enter the Street name:");
+                string streetName = Console.ReadLine();
+                Console.Write("Enter the city:");
+                string city = Console.ReadLine();
+                Console.Write("Enter the state(initials only):");
+                string state = Console.ReadLine();
+                Console.Write("Enter the Country(initials only):");
+                string ctry = Console.ReadLine();
+                Console.Write("Enter the zip code:");
+                string zip = Console.ReadLine();
+                Console.Write("Enter the area code, if you have one:");
+                string area = Console.ReadLine();
+                Console.Write("Enter the number:");
+                string number = Console.ReadLine();
+
+                Country code = Country.US;
+                foreach (Country var in Enum.GetValues(typeof(Country)))
                 {
-                    code = var;
+                    if (var.ToString() == ctry)
+                    {
+                        code = var;
+                    }
                 }
-            }
 
             //change State to string and make it optional because if you are in a country besides the US, you don't have states
-
-            int ctryCode = (int)code;
-            Person add = new Person(fn, ln, hNo, streetName, city, ctry, zip, number, state, area);
-            directory.Add(add);
-            serializeObjectList();
-            writePersonToDB(add);
-            Console.WriteLine("Contact Added");
+            
+                int ctryCode = (int)code;
+                Person add = new Person(fn, ln, hNo, streetName, city, ctry, zip, number, state, area);
+                directory.Add(add);
+                serializeObjectList();
+                writePersonToDB(add);
+                Console.WriteLine("Contact Added");
+                LoadIntoCollection();
+            }
+            else
+            {
+                Console.WriteLine("Person already exists.");
+            }
+            
         }
 
         void serializeObjectList()
@@ -170,13 +180,9 @@ namespace PhoneAppProject
 
         public void deleteContact(string firstName, string lastName)
         {
-            for(var i = 0; i < directory.Count; i++)
-            {
-                if ((directory[i].firstName == firstName) && (directory[i]).lastName == lastName){
-                    directory.RemoveAt(i);
-                }
-            }
-            Console.WriteLine("Contact Deleted");
+            bool result = deleteContactDB(firstName, lastName);
+            Console.WriteLine(result);
+            //Console.WriteLine("Contact Deleted");
         }
 
         public Person SearchByName(string firstName, string lastName)
@@ -189,6 +195,18 @@ namespace PhoneAppProject
                 }
             }
             return null;
+        }
+
+        public bool contactExist(Person person)
+        {
+            for(var i = 0; i < directory.Count; i++)
+            {
+                if (person.Pid == directory[i].Pid)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void update(string firstName, string lastName)
@@ -408,7 +426,7 @@ namespace PhoneAppProject
 
         }
 
-        public void deleteContactDB(string fName, string lName)
+        public bool deleteContactDB(string fName, string lName)
         {
             Person temp = SearchByName(fName, lName);
 
@@ -417,10 +435,56 @@ namespace PhoneAppProject
 
             if(temp != null)
             {
-                string deletePhone = $"DELETE FROM Phone WHERE @Person_ID = {temp.Pid}";
-                string deleteAddress = $"DELETE FROM AddressBook WHERE @Person_ID = {temp.Pid}";
-                string deletePerson = $"DELETE FROM Directory WHERE @Person_ID = {temp.Pid}";
+                string deletePhone = $"DELETE FROM Phone WHERE Person_ID = @Person_ID";
+                string deleteAddress = $"DELETE FROM AddressBook WHERE Person_ID = @Person_ID ";
+                string deletePerson = $"DELETE FROM Directory WHERE PersonID = @PersonID";
+
+                using(SqlConnection source = new SqlConnection(conStr))
+                {
+                    source.Open();
+                    try
+                    {
+                        SqlCommand deletePhoneCmd = new SqlCommand(deletePhone, source);
+                        SqlCommand deleteAddressCmd = new SqlCommand(deleteAddress, source);
+                        SqlCommand deletePersonCmd = new SqlCommand(deletePerson, source);
+
+                        deletePhoneCmd.Parameters.Add(new SqlParameter("Person_ID", temp.phone.Pid));
+                        deleteAddressCmd.Parameters.Add(new SqlParameter("Person_ID", temp.address.Pid));
+                        deletePersonCmd.Parameters.Add(new SqlParameter("PersonID", temp.Pid));
+
+                        if ((deletePhoneCmd.ExecuteNonQuery() == 0))
+                        {
+                            return false;
+                            //throw new Exception($"Person did not delete: {temp.Pid}"); 
+                        }
+
+                        if ((deleteAddressCmd.ExecuteNonQuery() == 0))
+                        {
+                            return false;
+                        }
+
+                        if((deletePersonCmd.ExecuteNonQuery() == 0))
+                        {
+                            return false;
+                        }
+
+                    }
+                    catch(SqlException ex)
+                    {
+                        log.Info(ex.Message);
+                    }
+                    catch(Exception ex)
+                    {
+                        log.Info(ex.Message);
+                    }
+                    finally
+                    {
+                        source.Close();
+                    }
+                } 
             }
+            LoadIntoCollection();
+            return true;
         }
 
 
