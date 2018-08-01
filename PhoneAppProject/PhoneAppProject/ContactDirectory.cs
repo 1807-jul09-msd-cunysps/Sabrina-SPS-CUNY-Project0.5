@@ -20,7 +20,7 @@ namespace PhoneAppProject
             LoadIntoCollection();
             while (command != "7")
             {
-                Console.WriteLine("Welcome to the Your Phone Directory");
+                Console.WriteLine("Welcome to the Your Phone Directory \n");
                 Console.WriteLine("Choose your command from the menu below:");
                 Console.WriteLine("1. Read");
                 Console.WriteLine("2. Read By Name");
@@ -43,7 +43,15 @@ namespace PhoneAppProject
                         string fn = Console.ReadLine();
                         Console.WriteLine("Enter the last name of the person you wish to read: ");
                         string ln = Console.ReadLine();
-                        ReadByName(fn, ln);
+                        Person readContact = ReadByName(fn, ln);
+                        if (readContact != null)
+                        {
+                            readContact.displayPerson();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No Contact by that name");
+                        }
                         continue;
 
                     case "3":
@@ -51,7 +59,15 @@ namespace PhoneAppProject
                         string firstName = Console.ReadLine();
                         Console.WriteLine("Enter the last name of the person you want to search for:");
                         string lastName = Console.ReadLine();
-                        SearchByName(firstName, lastName);
+                        Person temp = SearchByName(firstName, lastName);
+                        if (temp != null)
+                        {
+                            temp.displayPerson();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No Person by that name in the Directory.");
+                        }
                         continue;
 
                     case "4":
@@ -63,7 +79,17 @@ namespace PhoneAppProject
                         string firName = Console.ReadLine();
                         Console.WriteLine("Enter the last name of the person you want to update:");
                         string lasName = Console.ReadLine();
-                        update(firName, lasName);
+                        Person tempSearch = SearchByName(firName, lasName);
+                        if(tempSearch != null)
+                        {
+                            update(tempSearch);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Person does not exist");
+                        }
+                        LoadIntoCollection();
+                        
                         continue;
 
                     case "6":
@@ -156,7 +182,7 @@ namespace PhoneAppProject
 
         public void Read()
         {
-            Console.WriteLine("Our Directory:");
+            Console.WriteLine("Our Directory: \n");
             for(var i = 0; i < directory.Count; i++)
             {
                 directory[i].displayPerson();
@@ -165,16 +191,18 @@ namespace PhoneAppProject
 
 
 
-        public void ReadByName(string firstName, string lastName)
+        public Person ReadByName(string firstName, string lastName)
         {
-            Console.WriteLine($"Directory Search Results for: {firstName} {lastName}");
+            
+            Console.WriteLine($"Directory Search Results for: {firstName} {lastName} \n");
             for(var i = 0; i < directory.Count; i++)
             {
                 if((directory[i].firstName == firstName) && (directory[i].lastName == lastName))
                 {
-                    directory[i].displayPerson();
+                     return directory[i];
                 }
             }
+            return null;
         }
 
 
@@ -199,89 +227,144 @@ namespace PhoneAppProject
 
         public bool contactExist(Person person)
         {
-            for(var i = 0; i < directory.Count; i++)
+            if (person != null)
             {
-                if (person.Pid == directory[i].Pid)
+                for (var i = 0; i < directory.Count; i++)
                 {
-                    return true;
+                    if (person.Pid == directory[i].Pid)
+                    {
+                        return true;
+                    }
                 }
             }
+            
             return false;
         }
 
-        public void update(string firstName, string lastName)
+        public void update(Person person)
         {
-            Person contact = SearchByName(firstName, lastName);
-            contact.displayPerson();
-            Console.WriteLine("What would you like to update?");
-            Console.WriteLine("1.The Contact Information(First Name, Last Name, etc)?");
-            Console.WriteLine("2.The Address Information?");
-            Console.WriteLine("3.The Phone Number?");
-            Console.WriteLine("4.Nothing");
-            Console.WriteLine("Enter the number for the option you want to update:");
-            var option = Console.ReadLine();
-
-            switch (option)
+           
+            person.displayPerson();
+            string option = "";
+            while(option != "4")
             {
-                case "1":
-                    Console.WriteLine("Enter the new first name of the person you want to update:");
-                    string fName = Console.ReadLine();
-                    Console.WriteLine("Enter the new last name of the person you want to update:");
-                    string lName = Console.ReadLine();
-                    contact.firstName = fName;
-                    contact.lastName = lName;
-                    break;
-
-                case "2":
-                    Console.Write("Enter the new House number:");
-                    string hNo = Console.ReadLine();
-                    Console.Write("Enter the new Street name:");
-                    string streetName = Console.ReadLine();
-                    Console.Write("Enter the new city:");
-                    string city = Console.ReadLine();
-                    Console.Write("Enter the new state(initials only):");
-                    string state = Console.ReadLine();
-                    Console.Write("Enter the new Country(initials only):");
-                    string ctry = Console.ReadLine();
-                    Console.Write("Enter the new zip code:");
-                    string zip = Console.ReadLine();
-
-
                 
-                    contact.address.houseNum = hNo;
-                    contact.address.street = streetName;
-                    contact.address.city = city;
-                    contact.address.state = state;
-                    contact.address.country = ctry;
-                    contact.address.zipcode = zip;
+                Console.WriteLine("What would you like to update?");
+                Console.WriteLine("1.The Contact Information(First Name, Last Name, etc)?");
+                Console.WriteLine("2.The Address Information?");
+                Console.WriteLine("3.The Phone Number?");
+                Console.WriteLine("4.Nothing");
+                Console.WriteLine("Enter the number for the option you want to update:");
+                option = Console.ReadLine();
 
-                    break;
-
-                case "3":
-                    Console.Write("Enter the area code, if you have one:");
-                    string area = Console.ReadLine();
-                    Console.Write("Enter the number:");
-                    string number = Console.ReadLine();
-
-                    Country code = Country.US;
-                    foreach (Country var in Enum.GetValues(typeof(Country)))
-                    {
-                        if (var.ToString() == contact.address.country)
+                switch (option)
+                {
+                    case "1":
+                        Console.WriteLine("Enter the new first name of the person you want to update:");
+                        string fName = Console.ReadLine();
+                        Console.WriteLine("Enter the new last name of the person you want to update:");
+                        string lName = Console.ReadLine();
+                        if (fName != "")
                         {
-                            code = var;
+                            person.firstName = fName;
                         }
-                    }
+                        if (lName != "")
+                        {
+                            person.lastName = lName;
+                        }
+                        bool resultPerson = updateDB(person, "Directory");
+                        continue;
 
-                    contact.phone.countryCode = ((int)code).ToString();
-                    contact.phone.areaCode = area;
-                    contact.phone.number = number;
-                    break;
+                    case "2":
+                        Console.Write("Enter the new House number:");
+                        string hNo = Console.ReadLine();
+                        Console.Write("Enter the new Street name:");
+                        string streetName = Console.ReadLine();
+                        Console.Write("Enter the new city:");
+                        string city = Console.ReadLine();
+                        Console.Write("Enter the new state(initials only):");
+                        string state = Console.ReadLine();
+                        Console.Write("Enter the new Country(initials only):");
+                        string ctry = Console.ReadLine();
+                        Console.Write("Enter the new zip code:");
+                        string zip = Console.ReadLine();
+                        
+                        if(hNo != "")
+                        {
+                            person.address.houseNum = hNo;
+                        }
 
-                default:
-                    break;
+                        if (streetName != "")
+                        {
+                            person.address.street = streetName;
+                        }
 
-                
+                        if (city != "")
+                        {
+                            person.address.city = city;
+                        }
+
+                        if ((ctry == "US") && ( state != ""))
+                        {
+                            person.address.state = state;
+                        }
+
+                        if(ctry != "")
+                        {
+                            person.address.country = ctry;
+                        }
+
+                        if (zip != "")
+                        {
+                            person.address.zipcode = zip;
+                        }
+                        bool resultAddr = updateDB(person, "Address");
+
+                        continue;
+
+                    case "3":
+                        Console.Write("Enter your country code: ");
+                        string country = Console.ReadLine();
+                        Console.Write("Enter the area code, if you have one:");
+                        string area = Console.ReadLine();
+                        Console.Write("Enter the number:");
+                        string number = Console.ReadLine();
+
+                        Country code = Country.US;
+                        foreach (Country var in Enum.GetValues(typeof(Country)))
+                        {
+                            if (var.ToString() == country)
+                            {
+                                code = var;
+                            }
+                        }
+
+                        if(((int)code).ToString() != "")
+                        {
+                            person.phone.countryCode = ((int)code).ToString();
+                        }
+
+                        if((area != "") && (person.address.country == "US"))
+                        {
+                            person.phone.areaCode = area;
+                        }
+                        if(number != "")
+                        {
+                            person.phone.number = number;
+                        }
+                        bool resultPH = updateDB(person, "Phone");
+
+
+                        continue;
+
+                    default:
+                        break;
+
+
+                }
+
             }
+           
 
         }
         //SQL Functions
@@ -426,6 +509,83 @@ namespace PhoneAppProject
 
         }
 
+        public bool updateDB(Person person, string table)
+        {
+            var log = NLog.LogManager.GetCurrentClassLogger();
+            string conStr = "Data Source=sabrina-cuny-sps-rev.database.windows.net;Initial Catalog=PhoneAppDB;Persist Security Info=True;User ID=sabrinaf;Password=Shona2018!";
+
+            string updatePhone = "UPDATE Phone SET CountryCode = @CountryCode, AreaCode = @AreaCode, Number = @Number WHERE Person_ID = @Person_ID";
+            string updateAddressBook = "UPDATE AddressBook SET houseNo = @houseNo, street = @street, city = @city, state = @state, country = @country, zipcode = @zipcode WHERE Person_ID = @Person_ID";
+            string updatePerson = "UPDATE Directory SET firstName = @firstName, lastName = @lastName WHERE PersonID = @PersonID";
+
+            using(SqlConnection source = new SqlConnection(conStr))
+            {
+                source.Open();
+                try
+                {
+                    SqlCommand updatePhoneCmd = new SqlCommand(updatePhone, source);
+                    SqlCommand updateAddressCmd = new SqlCommand(updateAddressBook, source);
+                    SqlCommand updatePersonCmd = new SqlCommand(updatePerson, source);
+
+                    updatePhoneCmd.Parameters.Add(new SqlParameter("CountryCode", person.phone.countryCode));
+                    updatePhoneCmd.Parameters.Add(new SqlParameter("AreaCode", person.phone.areaCode));
+                    updatePhoneCmd.Parameters.Add(new SqlParameter("Number", person.phone.number));
+                    updatePhoneCmd.Parameters.Add(new SqlParameter("Person_ID", person.phone.Pid));
+
+                    updateAddressCmd.Parameters.Add(new SqlParameter("houseNo", person.address.houseNum));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("street", person.address.street));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("city",person.address.city));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("state",person.address.state));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("country", person.address.country));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("zipcode",person.address.zipcode));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("Person_ID", person.address.Pid));
+
+                    updatePersonCmd.Parameters.Add(new SqlParameter("firstName",person.firstName));
+                    updatePersonCmd.Parameters.Add(new SqlParameter("lastName",person.lastName));
+                    updatePersonCmd.Parameters.Add(new SqlParameter("PersonID", person.Pid));
+
+                    switch (table)
+                    {
+                        case "Phone":
+                            if(updatePhoneCmd.ExecuteNonQuery() == 0)
+                            {
+                                return false;
+                            }
+                            break;
+                        case "Address":
+                            if(updateAddressCmd.ExecuteNonQuery() == 0)
+                            {
+                                return false;
+                            }
+                            break;
+                        case "Directory":
+                            if (updatePersonCmd.ExecuteNonQuery() == 0)
+                            {
+                                return false;
+                            }
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+                catch(SqlException ex)
+                {
+                    log.Info(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    log.Info(ex.Message);
+                }
+                finally
+                {
+                    source.Close();
+                }
+            }
+
+            return true;
+        }
+
         public bool deleteContactDB(string fName, string lName)
         {
             Person temp = SearchByName(fName, lName);
@@ -435,9 +595,9 @@ namespace PhoneAppProject
 
             if(temp != null)
             {
-                string deletePhone = $"DELETE FROM Phone WHERE Person_ID = @Person_ID";
-                string deleteAddress = $"DELETE FROM AddressBook WHERE Person_ID = @Person_ID ";
-                string deletePerson = $"DELETE FROM Directory WHERE PersonID = @PersonID";
+                string deletePhone = "DELETE FROM Phone WHERE Person_ID = @Person_ID";
+                string deleteAddress = "DELETE FROM AddressBook WHERE Person_ID = @Person_ID ";
+                string deletePerson = "DELETE FROM Directory WHERE PersonID = @PersonID";
 
                 using(SqlConnection source = new SqlConnection(conStr))
                 {

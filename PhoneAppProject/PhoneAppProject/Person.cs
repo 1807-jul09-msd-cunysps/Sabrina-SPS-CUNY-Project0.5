@@ -74,10 +74,12 @@ namespace PhoneAppProject
 
         public void displayPerson()
         {
+            
             Console.WriteLine($"First Name: {firstName}");
             Console.WriteLine($"Last Name: {lastName}");
             address.displayAddress();
             phone.displayPhone();
+ 
         }
 
     }

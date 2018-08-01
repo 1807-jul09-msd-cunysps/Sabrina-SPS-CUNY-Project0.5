@@ -48,11 +48,11 @@ namespace PhoneAppProject
         {
             if (areaCode == "")
             {
-                Console.WriteLine($"{countryCode}-{number}");
+                Console.WriteLine($"Phone Number: {countryCode}-{number} \n");
             }
             else
             {
-                Console.WriteLine($"{countryCode}-{areaCode}-{number}");
+                Console.WriteLine($"Phone Number: {countryCode}-{areaCode}-{number} \n");
             }
         }
     }

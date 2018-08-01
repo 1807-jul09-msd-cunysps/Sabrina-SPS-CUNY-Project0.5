@@ -35,11 +35,11 @@ namespace PhoneAppProject
         {
             if(state != "")
             {
-                Console.WriteLine($"{houseNum} {street} {city}, {state} {country} {zipcode}");
+                Console.WriteLine($"Address: {houseNum} {street} {city}, {state} {country} {zipcode}");
             }
             else
             {
-                Console.WriteLine($"{houseNum} {street} {city}, {country} {zipcode}");
+                Console.WriteLine($"Address: {houseNum} {street} {city}, {country} {zipcode}");
             }
             
         }
