@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneAppProject
+namespace ContactDAL
 {
-
     public class Phone
     {
         public Phone() { }
-        public Phone(Int64 personID,string num)
-        { 
+        public Phone(Int64 personID, string num)
+        {
 
         }
         public Phone(Int64 personID, int ctCode, string num, string area = "")
@@ -43,7 +42,7 @@ namespace PhoneAppProject
             }
 
         }
-        
+
         public void displayPhone()
         {
             if (areaCode == "")

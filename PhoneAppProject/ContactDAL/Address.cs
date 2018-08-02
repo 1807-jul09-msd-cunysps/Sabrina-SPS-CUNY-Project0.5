@@ -1,11 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace PhoneAppProject
+namespace ContactDAL
 {
     public class Address
     {
@@ -33,7 +33,7 @@ namespace PhoneAppProject
 
         public void displayAddress()
         {
-            if(state != "")
+            if (state != "")
             {
                 Console.WriteLine($"Address: {houseNum} {street} {city}, {state} {country} {zipcode}");
             }
@@ -41,7 +41,7 @@ namespace PhoneAppProject
             {
                 Console.WriteLine($"Address: {houseNum} {street} {city}, {country} {zipcode}");
             }
-            
+
         }
     }
 }

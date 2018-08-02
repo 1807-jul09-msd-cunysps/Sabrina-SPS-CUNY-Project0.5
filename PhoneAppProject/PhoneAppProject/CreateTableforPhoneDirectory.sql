@@ -31,4 +31,7 @@ CREATE TABLE AddressBook
 	 SELECT * FROM AddressBook;
 	 SELECT * FROM Phone;
 
+
+	 SELECT * FROM Directory
+	 WHERE firstName = 'Tashny' AND lastName = 'Hopkins'
 	

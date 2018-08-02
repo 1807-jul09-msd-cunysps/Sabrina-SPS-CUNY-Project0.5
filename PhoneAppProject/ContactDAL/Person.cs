@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneAppProject
+namespace ContactDAL
 {
-
     public enum State
     {
         AL, AK, AZ, AR, CA, CO, CT, DE, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY
@@ -37,11 +36,11 @@ namespace PhoneAppProject
     public class Person
     {
         public Person() { }
-        public Person(string fn, string ln, string houseNo, string str, string cy, string ctry,string zip, string number,  string st = "", string areaCode = "", Int64 pid = 0)
+        public Person(string fn, string ln, string houseNo, string str, string cy, string ctry, string zip, string number, string st = "", string areaCode = "", Int64 pid = 0)
         {
             /// Initialise the dependant objects
             /// 
-            if(pid == 0)
+            if (pid == 0)
             {
                 Pid = DateTime.Now.Ticks;
             }
@@ -74,15 +73,13 @@ namespace PhoneAppProject
 
         public void displayPerson()
         {
-            
+
             Console.WriteLine($"First Name: {firstName}");
             Console.WriteLine($"Last Name: {lastName}");
             address.displayAddress();
             phone.displayPhone();
- 
+
         }
 
     }
 }
-
-
