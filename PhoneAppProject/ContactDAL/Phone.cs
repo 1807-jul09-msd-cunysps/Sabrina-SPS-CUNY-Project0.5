@@ -13,9 +13,9 @@ namespace ContactDAL
         {
 
         }
-        public Phone(Int64 personID, int ctCode, string num, string area = "")
+        public Phone(Int64 Pid, int ctCode, string num, string area = "")
         {
-            Pid = personID;
+            this.Pid = Pid;
             countryCode = ctCode.ToString();
             areaCode = area;
             number = num;

@@ -12,7 +12,7 @@ namespace ContactDAL
         public List<Person> LoadIntoCollection()
         {
             var log = NLog.LogManager.GetCurrentClassLogger();
-            string conStr = "Data Source=sabrina-cuny-sps-rev.database.windows.net;Initial Catalog=PhoneAppDB;Persist Security Info=True;User ID=sabrinaf;Password=Shona2018!";
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
             List<Person> directory = new List<Person>();
 
             string addressSelect = "SELECT * FROM AddressBook";
@@ -49,7 +49,7 @@ namespace ContactDAL
                                 temp.city = addressExe.GetString(2);
                                 temp.state = addressExe.GetString(3);
                                 temp.country = addressExe.GetString(4);
-                                temp.zipcode = addressExe.GetString(5);
+                                temp.zip = addressExe.GetString(5);
                                 temp.Pid = addressExe.GetInt64(6);
 
                                 //temp = new Address((long)addressExe.GetValue(0), addressExe.GetString(1), addressExe.GetString(2), addressExe.GetString(3), addressExe.GetString(4), addressExe.GetString(5), addressExe.GetString(6));
@@ -127,7 +127,7 @@ namespace ContactDAL
                                 code = var;
                             }
                         }
-                        directory.Add(new Person(people[i].firstName, people[i].lastName, addresses[people[i].Pid].houseNum, addresses[people[i].Pid].street, addresses[people[i].Pid].city, addresses[people[i].Pid].country, addresses[people[i].Pid].zipcode, phones[people[i].Pid].number, addresses[people[i].Pid].state, phones[people[i].Pid].areaCode, people[i].Pid));
+                        directory.Add(new Person(people[i].firstName, people[i].lastName, addresses[people[i].Pid].houseNum, addresses[people[i].Pid].street, addresses[people[i].Pid].city, addresses[people[i].Pid].country, addresses[people[i].Pid].zip, phones[people[i].Pid].number, addresses[people[i].Pid].state, phones[people[i].Pid].areaCode, people[i].Pid));
                         //Console.WriteLine(people[i].Pid);
                         //Console.WriteLine(addres)
                     }
@@ -155,7 +155,7 @@ namespace ContactDAL
         public bool updateDB(Person person, string table)
         {
             var log = NLog.LogManager.GetCurrentClassLogger();
-            string conStr = "Data Source=sabrina-cuny-sps-rev.database.windows.net;Initial Catalog=PhoneAppDB;Persist Security Info=True;User ID=sabrinaf;Password=Shona2018!";
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
 
             string updatePhone = "UPDATE Phone SET CountryCode = @CountryCode, AreaCode = @AreaCode, Number = @Number WHERE Person_ID = @Person_ID";
             string updateAddressBook = "UPDATE AddressBook SET houseNo = @houseNo, street = @street, city = @city, state = @state, country = @country, zipcode = @zipcode WHERE Person_ID = @Person_ID";
@@ -180,7 +180,7 @@ namespace ContactDAL
                     updateAddressCmd.Parameters.Add(new SqlParameter("city", person.address.city));
                     updateAddressCmd.Parameters.Add(new SqlParameter("state", person.address.state));
                     updateAddressCmd.Parameters.Add(new SqlParameter("country", person.address.country));
-                    updateAddressCmd.Parameters.Add(new SqlParameter("zipcode", person.address.zipcode));
+                    updateAddressCmd.Parameters.Add(new SqlParameter("zipcode", person.address.zip));
                     updateAddressCmd.Parameters.Add(new SqlParameter("Person_ID", person.address.Pid));
 
                     updatePersonCmd.Parameters.Add(new SqlParameter("firstName", person.firstName));
@@ -241,7 +241,7 @@ namespace ContactDAL
             Person temp = SearchDB(fName, lName);
 
             var log = NLog.LogManager.GetCurrentClassLogger();
-            string conStr = "Data Source=sabrina-cuny-sps-rev.database.windows.net;Initial Catalog=PhoneAppDB;Persist Security Info=True;User ID=sabrinaf;Password=Shona2018!";
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
 
             if (temp != null)
             {
@@ -307,6 +307,117 @@ namespace ContactDAL
                 }
             }
             return null;
+
+        }
+
+        public List<Message> loadMessageFromDB()
+        {
+            var log = NLog.LogManager.GetCurrentClassLogger();
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
+            List<Message> directory = new List<Message>();
+
+            string messageSelect = "SELECT * FROM ContactMe";
+
+
+            using (SqlConnection source = new SqlConnection(conStr))
+            {
+                source.Open();
+                try
+                {
+                    SqlCommand messageCmd = new SqlCommand(messageSelect, source);
+                    List<Message> messages = new List<Message>();
+
+                    var messageExe = messageCmd.ExecuteReader();
+
+                    using (messageExe)
+                    {
+
+                        while(messageExe.Read())
+                        {
+                            
+
+                            try
+                            {
+                                Message temp = new Message(messageExe.GetString(0), messageExe.GetString(1), messageExe.GetString(2), messageExe.GetString(3));
+                                messages.Add(temp);
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error($"Message cannot be read from the DB, {ex.Message}");
+                                Console.WriteLine($"Message cannot be read from the DB, {ex.Message}");
+                            }
+                           
+                        }
+                       
+                    }
+                    directory.Clear();
+                    for(var i = 0; i < messages.Count; i++)
+                    {
+                        directory.Add(new Message(messages[i].firstName, messages[i].lastName, messages[i].email, messages[i].message));
+
+                    }
+                    
+                }
+                catch (SqlException ex)
+                {
+                    log.Error(ex);
+                    Console.WriteLine($"Sql Exception: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    Console.WriteLine($"End all, catch all:{ex.Message}, {ex.TargetSite}");
+                }
+                finally
+                {
+                    source.Close();
+                }
+            }
+            return directory;
+
+        }
+
+        public void writeMessageToDB(Message message)
+        {
+            var log = NLog.LogManager.GetCurrentClassLogger();
+            SqlConnection con = null;
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
+
+            string messageInsert = "INSERT INTO ContactMe Values(@firstName, @lastName, @email, @message)";
+            try
+            {
+                con = new SqlConnection(conStr);
+                con.Open();
+
+                SqlCommand messageCmd = new SqlCommand(messageInsert, con);
+
+                messageCmd.Parameters.Add(new SqlParameter("firstName", message.firstName));
+                messageCmd.Parameters.Add(new SqlParameter("lastName", message.lastName));
+                messageCmd.Parameters.Add(new SqlParameter("email", message.email));
+                messageCmd.Parameters.Add(new SqlParameter("message", message.message));
+
+                if(messageCmd.ExecuteNonQuery() == 0)
+                {
+                    throw new Exception($"Message did not insert: {message.firstName} {message.lastName}");
+                }
+            }
+            catch (SqlException ex)
+            {
+                log.Info(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                log.Info(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
         }
 
 
@@ -314,7 +425,7 @@ namespace ContactDAL
         {
             var log = NLog.LogManager.GetCurrentClassLogger();
             SqlConnection con = null;
-            string conStr = "Data Source=sabrina-cuny-sps-rev.database.windows.net;Initial Catalog=PhoneAppDB;Persist Security Info=True;User ID=sabrinaf;Password=Shona2018!";
+            string conStr = "Data Source=sabrina-cuny-sps.database.windows.net;Initial Catalog=Project1_db;User ID=sabrinaf;Password=Shona28781951*";
 
             string addressInsert = "INSERT INTO AddressBook Values(@houseNo, @street, @city, @state, @country, @zip, @Person_ID)";
             string personInsert = "INSERT INTO Directory Values(@PersonID, @firstName, @lastName)";
@@ -345,9 +456,10 @@ namespace ContactDAL
                 addressCmd.Parameters.Add(new SqlParameter("houseNo", person.address.houseNum));
                 addressCmd.Parameters.Add(new SqlParameter("street", person.address.street));
                 addressCmd.Parameters.Add(new SqlParameter("city", person.address.city));
+
                 addressCmd.Parameters.Add(new SqlParameter("state", person.address.state));
                 addressCmd.Parameters.Add(new SqlParameter("country", person.address.country));
-                addressCmd.Parameters.Add(new SqlParameter("zip", person.address.zipcode));
+                addressCmd.Parameters.Add(new SqlParameter("zip", person.address.zip));
                 addressCmd.Parameters.Add(new SqlParameter("Person_ID", person.Pid));
 
                 phoneCmd.Parameters.Add(new SqlParameter("CountryCode", person.phone.countryCode.ToString()));

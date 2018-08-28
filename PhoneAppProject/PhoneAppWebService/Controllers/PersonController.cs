@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Net.Http;
+using Newtonsoft.Json;
 using ContactDAL;
 using PhoneAppProject;
 using System.Web.Http.Cors;
@@ -17,6 +18,7 @@ namespace PhoneAppWebService.Controllers
         SQLFunctions peopleDB = new SQLFunctions();
 
         [HttpGet]
+        [Route("api/Person")]
         public List<Person> Get()
         {
             var people = peopleDB.LoadIntoCollection();
@@ -24,16 +26,44 @@ namespace PhoneAppWebService.Controllers
         }
 
         [HttpPost]
+        [Route("api/Person")]
         public IHttpActionResult Post([FromBody]Person person)
         {
-            if(person != null)
+
+            try
             {
-                return Ok("Person Added Successfully!!");
+                peopleDB.writePersonToDB(person);
+                return Ok("Person inserted");
             }
-            else
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
+        }
+        [HttpGet]
+        [Route("api/Message")]
+        public List<Message> GetMessage()
+        {
+            var messages = peopleDB.loadMessageFromDB();
+            return messages;
+        }
+
+
+        [HttpPost]
+        [Route("api/Message")]
+        public IHttpActionResult PostMessage([FromBody]Message message)
+        {
+            try
+            {
+                peopleDB.writeMessageToDB(message);
+                return Ok("Message Inserted");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+
         }
     }
 }

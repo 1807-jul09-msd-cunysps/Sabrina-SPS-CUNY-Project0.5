@@ -316,7 +316,7 @@ namespace PhoneAppProject
 
                         if (zip != "")
                         {
-                            person.address.zipcode = zip;
+                            person.address.zip = zip;
                         }
                         bool resultAddr = sqlRequest.updateDB(person, "Address");
 

@@ -35,32 +35,35 @@ namespace ContactDAL
 
     public class Person
     {
-        public Person() { }
-        public Person(string fn, string ln, string houseNo, string str, string cy, string ctry, string zip, string number, string st = "", string areaCode = "", Int64 pid = 0)
+
+        public Person() {
+            
+        }
+        public Person(string firstName, string lastName, string houseNum, string street, string city, string country, string zip, string number, string state = "", string areaCode = "", Int64 Pid = 0)
         {
             /// Initialise the dependant objects
             /// 
-            if (pid == 0)
+            if (Pid == 0)
             {
-                Pid = DateTime.Now.Ticks;
+                this.Pid = DateTime.Now.Ticks;
             }
             else
             {
-                Pid = pid;
+                this.Pid = Pid;
             }
             Country code = Country.US;
             foreach (Country var in Enum.GetValues(typeof(Country)))
             {
-                if (var.ToString() == ctry)
+                if (var.ToString() == country)
                 {
                     code = var;
                 }
             }
 
-            firstName = fn;
-            lastName = ln;
-            address = new Address(Pid, houseNo, str, cy, ctry, zip, st);
-            phone = new Phone(Pid, (int)code, number, areaCode);
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.address = new Address(Pid, houseNum, street, city, country, zip, state);
+            this.phone = new Phone(Pid, (int)code, number, areaCode);
         }
 
         public Int64 Pid { get; set; }
